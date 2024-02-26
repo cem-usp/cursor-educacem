@@ -56,7 +56,20 @@ df2 %>%
          Q28_MAE, Q28_FAMILIA, Q28_VIZINHA, Q28_PAMIGOS, Q28_OUTROS) %>% 
   View()
 
-#Conta quantos responderam que vão sozinhas e/ou com amigas
+#Conta quantas pessoas por gênero
 df2 %>% 
-  group_by(Q28_SOZINHA, Q28_AMIGA) %>% 
+  group_by(`4. Qual o gênero com o qual você se identifica?`) %>% 
   summarise("count" = n())
+
+#Conta quantos responderam que vão sozinhas e/ou com amigas por gênero
+df2 %>% 
+  group_by(Q28_SOZINHA, `4. Qual o gênero com o qual você se identifica?`) %>% 
+  summarise("count" = n()) %>% 
+  mutate(freq = count / sum(count))
+summarise("count" = n())
+
+#Conta quantos responderam que vão sozinhas e/ou com amigas por gênero
+df2 %>% 
+  group_by(`4. Qual o gênero com o qual você se identifica?`, Q28_SOZINHA) %>% 
+  summarise("count" = n()) %>% 
+  mutate(freq = count / sum(count))
