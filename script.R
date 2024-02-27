@@ -47,7 +47,7 @@ df2 <- df2 %>%
     "Q28_OUTROS" = ifelse(
       grepl("outras pessoas", `28. Com quem você geralmente vai para a escola? (marcar uma ou mais opções)`),
       T, F),
-    )
+  )
 
 #Verificar e comparar as novas colunas com a coluna original
 df2 %>% 
@@ -69,7 +69,19 @@ df2 %>%
 summarise("count" = n())
 
 #Conta quantos responderam que vão sozinhas e/ou com amigas por gênero
-df2 %>% 
+tbl2 <- df2 %>% 
   group_by(`4. Qual o gênero com o qual você se identifica?`, Q28_SOZINHA) %>% 
   summarise("count" = n()) %>% 
   mutate(freq = count / sum(count))
+
+#Carrega pacote para criação de gráficos
+library(ggplot2)
+
+#Renomeia coluna
+tbl2 <- tbl2 %>% 
+  rename("genero" = `4. Qual o gênero com o qual você se identifica?`)
+
+#Gráfico de pessoas que vão sozinhas por genêro
+tbl2 %>% 
+  ggplot(aes(x = genero, y = freq, fill = Q28_SOZINHA)) +
+  geom_col(position = "fill")
